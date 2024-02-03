@@ -1,5 +1,7 @@
 # PyPwnCollege
 
+[![Run Tests](https://github.com/zeeshan12340/pypwncollege/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/zeeshan12340/pypwncollege/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/zeeshan12340/pypwncollege/branch/main/graph/badge.svg)](https://codecov.io/gh/zeeshan12340/pypwncollege)
 [![Documentation Status](https://readthedocs.org/projects/pypwncollege/badge/?version=latest)](https://pypwncollege.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/PyPwnCollege.svg)](https://badge.fury.io/py/PyPwnCollege)
 
