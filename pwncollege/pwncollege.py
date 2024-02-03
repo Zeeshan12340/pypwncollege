@@ -298,13 +298,15 @@ class PWNClient:
 
         belt_re = re.search("<img src=\"/themes/dojo_theme/static/img/dojo/(.*).svg", text)
         belt = belt_re.group(1) if belt_re else None
+        website_re = re.search("<a href=\"(.*)\" target=\"_blank\" style=\"color: inherit;\" rel=\"noopener\">", text)
+        website = website_re.group(1) if website_re else None
 
         data = cast(dict, {
             "id": user_id,
             "name": name,
             "points": score[1],
             "ranking": score[0],
-            "website": re.search("<a href=\"(.*)\" target=\"_blank\" style=\"color: inherit;\" rel=\"noopener\">", text).group(1),
+            "website": website,
             "country_name": country_name,
             "belt": belt,
         })
