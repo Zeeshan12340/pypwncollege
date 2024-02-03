@@ -346,7 +346,7 @@ class PWNClient:
 
         """
         data = self.do_request("pwncollege_api/v1/belts").json()
-        return data
+        return cast(dict, data)
     
     # noinspection PyUnresolvedReferences
     @property
@@ -359,7 +359,7 @@ class PWNClient:
         match = re.search("'userId': (\\d+)", self.do_request("/").text)
         assert match, "Failed to find User ID"
         uid = int(match.group(1))
-            
+
         if not self._user:
             uid = cast(dict, uid)
             self._user = self.get_user(uid)
