@@ -1,5 +1,7 @@
 # PyPwnCollege
 
+[![Documentation Status](https://readthedocs.org/projects/pypwncollege/badge/?version=latest)](https://pypwncollege.readthedocs.io/en/latest/?badge=latest)
+
 PyPwnCollege is an unofficial Python library to interact with the pwn.college API and website.
 
 ## Install
