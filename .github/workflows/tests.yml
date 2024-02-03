@@ -27,7 +27,7 @@ jobs:
           python-version: 3.10.13
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip poetry pytest pytest-cov mypy
+          python -m pip install --upgrade pip poetry pytest pytest-cov mypy paramiko
           poetry install
       - name: Run tests and generate coverage report
         run: |
