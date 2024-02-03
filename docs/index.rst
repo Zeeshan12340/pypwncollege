@@ -13,6 +13,7 @@ Setting up an API connection::
     print(client.user)
 
 For Getting a challenge, you need the dojo and module alongwith the challenge::
+    
     dojos = client.get_dojos()
     modules = client.get_modules(dojos[0])
     challenges = client.get_challenges(dojos[0], modules[0])
