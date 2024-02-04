@@ -130,7 +130,7 @@ class PWNClient:
             )
             
         if r.status_code >= 500:
-            raise ServerErrorException
+            raise ServerErrorException(f"Server error: {r.status_code}")
         else:
             return r
 
@@ -290,7 +290,8 @@ class PWNClient:
         from .user import User
 
         text = self.do_request(f"/hacker/{user_id}").text
-        name = re.search("<h1>(.*)</h1>", text).group(1)
+        name_re = re.search("<h1>(.*)</h1>", text)
+        name = name_re.group(1) if name_re else ""
         score = self.do_request("/pwncollege_api/v1/score?username=" + name).text.strip('"').split(":")
         
         country = re.search("'country_name': \"([^\"]+)\"", text)
@@ -341,7 +342,7 @@ class PWNClient:
         data = cast(dict, r.json())["standings"]
         return Leaderboard(data, self)
     
-    def get_belts(self) -> json:
+    def get_belts(self) -> dict:
         """Requests a list of available belts
 
         Returns: A list of belts
@@ -363,7 +364,6 @@ class PWNClient:
         uid = int(match.group(1))
 
         if not self._user:
-            uid = cast(dict, uid)
             self._user = self.get_user(uid)
         return self._user
 
@@ -375,7 +375,7 @@ class PWNObject:
     """
 
     _client: PWNClient
-    id: int
+    id: str
 
 
     def __eq__(self, other):

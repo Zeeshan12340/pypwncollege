@@ -80,7 +80,7 @@ class Challenge(pwncollege.PWNObject):
         )
 
         if not submission["success"]:
-            raise IncorrectArgumentException
+            raise IncorrectArgumentException("Invalid submission!")
         if submission["data"]["status"] == "incorrect":
             print("Incorrect flag!")
             return False
@@ -144,7 +144,7 @@ class Challenge(pwncollege.PWNObject):
             if not response.json()["success"]:
                 raise IncorrectArgumentException(response["error"])
         except json.JSONDecodeError:
-            raise IncorrectArgumentException
+            raise IncorrectArgumentException(response["error"])
         
         print("Challenge started!")
         self.instance = DockerInstance(
@@ -198,7 +198,7 @@ class Challenge(pwncollege.PWNObject):
             channel = self.sshclient.invoke_shell()
             out = channel.recv(9999)
 
-            channel.send(command + "\n")
+            channel.send((command + "\n").encode("latin-1"))
             while not channel.recv_ready():
                 time.sleep(1)
             out = channel.recv(9999)
@@ -244,14 +244,14 @@ class DockerInstance:
 
     dojo: str
     module: str
-    chall_id: int
+    chall_id: str
     client: pwncollege.PWNClient
 
     def __init__(
         self,
         dojo: str,
         module: str,
-        chall_id: int,
+        chall_id: str,
         client: pwncollege.PWNClient,
     ):
         self.client = client

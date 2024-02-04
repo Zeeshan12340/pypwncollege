@@ -7,4 +7,3 @@ paramiko
 # Static type checking
 mypy
 types-requests
-types-python-dateutil
