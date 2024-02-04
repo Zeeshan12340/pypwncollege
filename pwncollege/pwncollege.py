@@ -95,7 +95,7 @@ class PWNClient:
         data=None,
         post=False,
         nonce: Optional[str] = None,
-    ) -> Union[dict, bytes]:
+    ) -> requests.Response:
         """
 
         Args:

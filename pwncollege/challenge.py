@@ -125,9 +125,7 @@ class Challenge(pwncollege.PWNObject):
 
         """
         nonce = parse_csrf_token(self._client.do_request("").text)
-        response = cast(
-            dict,
-            self._client.do_request(
+        response = self._client.do_request(
                 "pwncollege_api/v1/docker",
                 json_data={
                     "dojo": self.dojo,
@@ -136,15 +134,14 @@ class Challenge(pwncollege.PWNObject):
                     "practice": practice,
                 },
                 nonce=nonce,
-            ),
-        )
+            )
         print(response.json())
 
         try:
             if not response.json()["success"]:
-                raise IncorrectArgumentException(response["error"])
+                raise IncorrectArgumentException(response.json()["success"])
         except json.JSONDecodeError:
-            raise IncorrectArgumentException(response["error"])
+            raise IncorrectArgumentException(response.json()["success"])
         
         print("Challenge started!")
         self.instance = DockerInstance(
