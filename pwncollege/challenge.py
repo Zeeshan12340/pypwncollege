@@ -96,8 +96,10 @@ class Challenge(pwncollege.PWNObject):
 
     def connect(self):
         """Connects to the challenge via SSH"""
-        if self.instance is None:
-            print("Challenge not started!")
+        res = self._client.do_request("pwncollege_api/v1/docker")
+        if res.json()["success"] is False:
+            print(res.json()["error"])
+            print("Starting challenge...")
             self.start()
 
         self.sshclient.load_system_host_keys()
