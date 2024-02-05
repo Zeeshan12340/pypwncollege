@@ -156,7 +156,7 @@ class PWNClient:
         print(f"{colors.green}[+] Loaded from cache!{colors.reset}")
         return True
 
-    def dump_to_cache(self, cache):
+    def dump_to_cache(self, cache: str):
         """
         Dumps the current access and refresh tokens to a file
         Args:
