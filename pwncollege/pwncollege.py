@@ -206,7 +206,7 @@ class PWNClient:
                 "nonce": self.nonce,
             }
         )
-        if data.status_code == 200:
+        if "Your username or password is incorrect" not in data.text:
             print(f"{colors.green}[+] Logged in as {colors.reset}{colors.blue}{email}!{colors.reset}")
             self._app_cookie = self.session.cookies.get("session")
             return self._app_cookie
