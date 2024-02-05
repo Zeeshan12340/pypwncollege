@@ -5,7 +5,7 @@ import getpass
 import json
 import os
 import re
-from typing import List, Union, Optional, cast, TYPE_CHECKING
+from typing import List, Optional, cast, TYPE_CHECKING
 
 import requests
 
