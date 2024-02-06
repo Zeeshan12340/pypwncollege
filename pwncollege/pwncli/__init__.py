@@ -15,9 +15,20 @@ def get_args():
     subparsers = parser.add_subparsers(title='subcommands', dest='subcommand')
 
     # Begin login subcommand
-    parser_chall = subparsers.add_parser('login', help="Login to pwncollege. Stores session cookie in cache ")
-    parser_chall.add_argument('-u', '--username', required=False, help='Username/Email for pwncollege.')
-    parser_chall.add_argument('-p', '--password', required=False, help='Password for pwncollege. If not provided, will prompt.')
+    parser_login = subparsers.add_parser('login', help="Login to pwncollege. Stores session cookie in cache ")
+    parser_login.add_argument('-u', '--username', required=False, help='Username/Email for pwncollege.')
+    parser_login.add_argument('-p', '--password', required=False, help='Password for pwncollege. If not provided, will prompt.')
+
+    # Begin get subcommand
+    parser_get = subparsers.add_parser('get', help="Get dojos/modules and their scoreboards.")
+    parser_get.add_argument('-d', '--dojos', required=False, help='Get listing of all available dojos')
+    parser_get.add_argument('-m', '--modules', required=False, help='Get listing of all available modules in a dojo')
+    parser_get.add_argument('-c', '--challenges', required=False, help='Get listing of all available challenges in a module inside a dojo')
+    parser_get.add_argument('-dr', '--dojo-ranking', required=False, help='Get ranking of top users in a dojo')
+    parser_get.add_argument('-mr', '--module-ranking', required=False, help='Get ranking of top users in a module inside a dojo')
+    parser_get.add_argument('-b', '--belt', required=False, help='Get JSON data of all belted users')
+    parser_get.add_argument('-i', '--info', required=False, help='Get information about your user')
+
 
     # Begin challenge subcommand
     parser_chall = subparsers.add_parser('challenge', help="Interact with challenges.")
@@ -54,7 +65,7 @@ class PWNCLI:
             exit()
 
         self.subcommand = self.args.subcommand
-        
+
     def login(self):
         """Login to pwncollege"""
         cache = os.path.expanduser(self.args.cache)
@@ -69,7 +80,7 @@ class PWNCLI:
             else:
                 self.client = pwncollege.PWNClient(
                     email=self.args.username, password=self.args.password,
-                    cache=self.args.cache)
+                    cache=cache)
         else:
             self.client = pwncollege.PWNClient(cache=cache)
 
