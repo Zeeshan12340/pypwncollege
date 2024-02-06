@@ -153,7 +153,8 @@ class PWNClient:
         if self._app_cookie is None or cookie_expired(self._app_cookie):
             return False
         
-        print(f"{colors.green}[+] Loaded from cache!{colors.reset}")
+        self.session.cookies.set("session", self._app_cookie)
+        print(f"{colors.green}[+]{colors.reset} Loaded from cache!")
         return True
 
     def dump_to_cache(self, cache: str):

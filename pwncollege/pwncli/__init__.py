@@ -3,6 +3,7 @@ import argparse
 from random import choice
 import pwncollege
 import os
+from .challenge import challenge
 
 def get_args():
     # Begin original commands - mostly related to authentication
@@ -10,19 +11,17 @@ def get_args():
         description="Interact with pwncollege from the command line.",
         usage="pwncli [-h] [-c CACHE] [-v] {login,challenge} ..."
         )
-    parser.add_argument('-c', '--cache', type=str, help='Path to cached credentials.')
-    parser.add_argument('-v', '--verbose', action="store_true", help="increase output verbosity")
+    parser.add_argument('-c', '--cache', type=str, required=False, help='filesystem location for cache. Default is ~/.pwncli.json', default="~/.pwncli.json")
     subparsers = parser.add_subparsers(title='subcommands', dest='subcommand')
 
     # Begin login subcommand
     parser_chall = subparsers.add_parser('login', help="Login to pwncollege. Stores session cookie in cache ")
     parser_chall.add_argument('-u', '--username', required=False, help='Username/Email for pwncollege.')
     parser_chall.add_argument('-p', '--password', required=False, help='Password for pwncollege. If not provided, will prompt.')
-    parser_chall.add_argument('-c', '--cache', required=False, help='filesystem location for cache. Default is ~/.pwncli.json', default="~/.pwncli.json")
 
     # Begin challenge subcommand
     parser_chall = subparsers.add_parser('challenge', help="Interact with challenges.")
-    parser_chall.add_argument('-n', '--name', required=True, help='Name of the challenge, or the challenge ID.')
+    parser_chall.add_argument('-n', '--name', required=False, help='Name of the challenge, or the challenge ID.')
     parser_chall.add_argument('-p', '--path', type=str, help='Download challenge files to the specified path.', default=None)
     parser_chall.add_argument('-s', '--start-docker', action="store_true", help='Start Docker instance.')
     parser_chall.add_argument('-f', '--flag', type=str, help='Submit flag.')
@@ -50,35 +49,36 @@ class PWNCLI:
         self.args = get_args()
         self.client = None
 
-        if self.args == argparse.Namespace(cache=None, subcommand=None, verbose=False):
+        if self.args == argparse.Namespace(cache=None, subcommand=None):
             print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
             exit()
 
-        if self.args.verbose:
-            self.print_args()
-
         self.subcommand = self.args.subcommand
         
-    def login(self, username, password, cache):
+    def login(self):
         """Login to pwncollege"""
-        if os.path.exists(cache):
+        cache = os.path.expanduser(self.args.cache)
+
+        if not os.path.exists(cache):
+            if self.subcommand != 'login':
+                print(colors.red + "You must login first." + colors.reset)
+                exit()
+            elif self.subcommand == 'login' and not self.args.username:
+                print(colors.red + "Username is required." + colors.reset)
+                exit()
+            else:
+                self.client = pwncollege.PWNClient(
+                    email=self.args.username, password=self.args.password,
+                    cache=self.args.cache)
+        else:
             self.client = pwncollege.PWNClient(cache=cache)
-            return
-
-        if not username:
-            print(colors.red + "Username is required." + colors.reset)
-            exit()
-
-        self.client = pwncollege.PWNClient(
-            email=username, password=password,
-            cache=cache)
 
     def run(self):
         """Executes the specified subcommand"""
-        self.login(self.args.username, self.args.password, os.path.expanduser(self.args.cache))
+        self.login()
+
         if self.subcommand == 'challenge':
-            self.challenge()
-        
+            challenge(self)
 
 def main():
     flavortext = [
