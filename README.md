@@ -23,6 +23,23 @@ client = PWNClient(email="user@example.com", password="S3cr3tP455w0rd!")
 print(client.user)
 ```
 
+## CLI
+
+The library also comes with a CLI to interact with the API which is a work in progress/experimental. For now, it is not in the published pip package, if you want to check it out, do as follows and it should be available in your shell.
+
+```bash
+git clone https://github.com/Zeeshan12340/pypwncollege && cd pypwncollege
+pip install .
+```
+
+Basic usage:
+
+```bash
+pwncli --help
+pwncli login -u test1337 -p test1337
+pwncli get --dojos
+```
+
 ## Documentation
 
 The documentation is available [here](https://pypwncollege.readthedocs.io/en/latest/).
