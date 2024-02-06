@@ -4,6 +4,8 @@ from random import choice
 import pwncollege
 import os
 from .challenge import challenge
+from .get import get
+from pwncollege.pwncollege import colors
 
 def get_args():
     # Begin original commands - mostly related to authentication
@@ -21,7 +23,7 @@ def get_args():
 
     # Begin get subcommand
     parser_get = subparsers.add_parser('get', help="Get dojos/modules and their scoreboards.")
-    parser_get.add_argument('-d', '--dojos', required=False, help='Get listing of all available dojos')
+    parser_get.add_argument('-d', '--dojos', required=False, action="store_true", help='Get listing of all available dojos')
     parser_get.add_argument('-m', '--modules', required=False, help='Get listing of all available modules in a dojo')
     parser_get.add_argument('-c', '--challenges', required=False, help='Get listing of all available challenges in a module inside a dojo')
     parser_get.add_argument('-dr', '--dojo-ranking', required=False, help='Get ranking of top users in a dojo')
@@ -32,28 +34,17 @@ def get_args():
 
     # Begin challenge subcommand
     parser_chall = subparsers.add_parser('challenge', help="Interact with challenges.")
-    parser_chall.add_argument('-n', '--name', required=False, help='Name of the challenge, or the challenge ID.')
-    parser_chall.add_argument('-p', '--path', type=str, help='Download challenge files to the specified path.', default=None)
+    parser_chall.add_argument('-d', '--dojo', required=False, help='Name of the dojo')
+    parser_chall.add_argument('-m', '--module', required=False, help='Name of the module')
+    parser_chall.add_argument('-c', '--challenge', required=False, help='Name of the challenge')
+    parser_chall.add_argument('-r', '--practice', required=False, help='Start in practice mode. Default is False.', default=False, action='store_true')
+    parser_chall.add_argument('-p', '--path', type=str, help='Download challenge files to the specified path.', default=os.getcwd())
     parser_chall.add_argument('-s', '--start-docker', action="store_true", help='Start Docker instance.')
     parser_chall.add_argument('-f', '--flag', type=str, help='Submit flag.')
     
     args = parser.parse_args()
 
     return args
-
-class colors:
-    """ANSI color codes for use in terminal output
-
-    Examples:
-        Using colors::
-            print(colors.red + "Hello, world!" + colors.reset)
-
-    """
-    red = "\033[91m"
-    green = "\033[92m"
-    yellow = "\033[93m"
-    blue = "\033[94m"
-    reset = "\033[0m"
 
 class PWNCLI:
     def __init__(self) -> None:
@@ -90,6 +81,8 @@ class PWNCLI:
 
         if self.subcommand == 'challenge':
             challenge(self)
+        elif self.subcommand == 'get':
+            get(self)
 
 def main():
     flavortext = [
