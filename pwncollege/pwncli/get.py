@@ -1,4 +1,5 @@
 from pwncollege.pwncollege import colors
+import json
 
 def get(self):
     if self.args.dojos and not self.args.modules and not self.args.challenges:
@@ -51,3 +52,15 @@ def get(self):
         for index, user in enumerate(ranking):
             print("| " + f"{index+1}. " + user + " "*(25-len(user)-len(str(index+1))) + "|")
         print("-" * 30)
+    
+    if self.args.belt:
+        belt_color = self.args.belt
+        valid_belts = ["orange", "yellow", "green", "blue", "black"]
+        if belt_color not in valid_belts:
+            print(colors.red + "Invalid belt color." + colors.reset)
+            print(f"Valid belt colors: {', '.join(valid_belts)}")
+            exit()
+        belts = self.client.get_belts()["users"]
+        for user in belts.values():
+            if user["color"] == belt_color:
+                print(json.dumps(user, indent=2))
