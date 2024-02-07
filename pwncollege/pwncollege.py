@@ -297,11 +297,11 @@ class PWNClient:
         text = self.do_request(f"/hacker/{user_id}").text
         name_re = re.search("<h1>(.*)</h1>", text)
         name = name_re.group(1) if name_re else ""
-        data = self.do_request("/pwncollege_api/v1/score?username=" + name)
-        if "user is not ranked" in data.text:
+        r = self.do_request("/pwncollege_api/v1/score?username=" + name)
+        if "user is not ranked" in r.text:
             score = ["∞", "0"]
         else:
-            score = data.text.strip('"').split(":")
+            score = r.text.strip('"').split(":")
         
         country = re.search("'country_name': \"([^\"]+)\"", text)
         country_name = country.group(1) if country else None
