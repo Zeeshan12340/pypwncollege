@@ -1,14 +1,14 @@
 from pwncollege.pwncollege import colors
 
 def get(self):
-    if self.args.dojos:
+    if self.args.dojos and not self.args.modules and not self.args.challenges:
         dojos = self.client.get_dojos()
         print("-"*12 + "Dojos" + "-"*13)
         for dojo in dojos:
             print("| " + dojo + " "*(27-len(dojo)) + "|")
         print("-" * 30)
     
-    if self.args.modules:
+    if self.args.modules and not self.args.challenges:
         dojo = self.args.modules
         modules = self.client.get_modules(dojo)
         if modules == []:
@@ -30,4 +30,24 @@ def get(self):
         print("-"*10 + "Challenges" + "-"*10)
         for challenge in challenges:
             print("| " + challenge.id + " "*(27-len(challenge.id)) + "|")
+        print("-" * 30)
+    
+    if self.args.dojo_ranking and not self.args.module_ranking:
+        dojo = self.args.dojo_ranking
+        ranking = self.client.get_dojo_ranking(dojo)
+        print("-"*9 + "Dojo Ranking" + "-"*9)
+        for index, user in enumerate(ranking):
+            print("| " + f"{index+1}. " + user + " "*(25-len(user)-len(str(index+1))) + "|")
+        print("-" * 30)
+
+    if self.args.module_ranking:
+        if not self.args.dojo_ranking:
+            print(colors.red + "You must specify a dojo using the -dr/--dojo-ranking flag." + colors.reset)
+            exit()
+        dojo = self.args.dojo_ranking
+        module = self.args.module_ranking
+        ranking = self.client.get_module_ranking(dojo, module)
+        print("-"*8 + "Module Ranking" + "-"*8)
+        for index, user in enumerate(ranking):
+            print("| " + f"{index+1}. " + user + " "*(25-len(user)-len(str(index+1))) + "|")
         print("-" * 30)
