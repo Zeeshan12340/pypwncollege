@@ -33,15 +33,18 @@ def get_args():
 
 
     # Begin challenge subcommand
-    parser_chall = subparsers.add_parser('challenge', help="Interact with challenges.")
+    parser_chall = subparsers.add_parser('challenge', help="Interact with challenges. You need a dojo+module+challenge_id to start a challenge.")
     parser_chall.add_argument('-d', '--dojo', required=False, help='Name of the dojo')
     parser_chall.add_argument('-m', '--module', required=False, help='Name of the module')
     parser_chall.add_argument('-c', '--challenge', required=False, help='Name of the challenge')
     parser_chall.add_argument('-r', '--practice', required=False, help='Start in practice mode. Default is False.', default=False, action='store_true')
-    parser_chall.add_argument('-p', '--path', type=str, help='Download challenge files to the specified path.', default=os.getcwd())
     parser_chall.add_argument('-s', '--start-docker', action="store_true", help='Start Docker instance.')
+
+    parser_chall.add_argument('-p', '--path', nargs='?', const=os.getcwd(), type=str, help='Download challenge files to the specified path.')
     parser_chall.add_argument('-f', '--flag', type=str, help='Submit flag.')
-    
+    parser_chall.add_argument('-e', '--execute', type=str, help='Run a command in container.')
+    parser_chall.add_argument('-i', '--interactive', action="store_true", help='Run an interactive shell in container.')
+
     args = parser.parse_args()
 
     return args
@@ -50,6 +53,7 @@ class PWNCLI:
     def __init__(self) -> None:
         self.args = get_args()
         self.client = None
+        self.myChall = None
 
         if self.args == argparse.Namespace(cache=None, subcommand=None):
             print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
@@ -72,8 +76,10 @@ class PWNCLI:
                 self.client = pwncollege.PWNClient(
                     email=self.args.username, password=self.args.password,
                     cache=cache)
-        elif self.subcommand == 'login':
-            self.client = pwncollege.PWNClient(cache=cache)
+        elif self.subcommand == 'login' and self.args.username:
+            self.client = pwncollege.PWNClient(
+                    email=self.args.username, password=self.args.password)
+            self.client.dump_to_cache(cache)
         else:
             self.client = pwncollege.PWNClient(cache=cache, notif=False)
 

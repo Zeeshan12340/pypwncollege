@@ -97,11 +97,13 @@ class Challenge(pwncollege.PWNObject):
     def connect(self):
         """Connects to the challenge via SSH"""
         res = self._client.do_request("pwncollege_api/v1/docker")
+        print(res.json())
         if res.json()["success"] is False:
             print(res.json()["error"])
             print("Starting challenge...")
             self.start()
 
+        self.sshclient = paramiko.SSHClient()
         self.sshclient.load_system_host_keys()
         self.sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -113,8 +115,8 @@ class Challenge(pwncollege.PWNObject):
             )
         except paramiko.ssh_exception.AuthenticationException:
             print("Error connecting to pwn.college")
-            return
-        
+            exit()
+
     def start(self, practice: bool = False) -> DockerInstance:
         """
         Requests the challenge be started
@@ -164,9 +166,11 @@ class Challenge(pwncollege.PWNObject):
         """
         if local is None:
             local = os.path.join(os.getcwd(), f"{self.name}")
-        elif self.instance is None:
-            print("Challenge not started!")
-            return
+        res = self._client.do_request("pwncollege_api/v1/docker")
+        if res.json()["success"] is False:
+            print(res.json()["error"])
+            print("Starting challenge...")
+            self.start()
 
         sftp = self.sshclient.open_sftp()
 
@@ -183,7 +187,7 @@ class Challenge(pwncollege.PWNObject):
         sftp.close()
         return local
     
-    def run(self, command: str, system: bool = False):
+    def run(self, command: str = "id", system: bool = False):
         """Starts an interactive ssh session with the challenge"""
         if self.sshclient.get_transport() is None:
             print("Connecting to Challenge!")
@@ -227,7 +231,7 @@ class Challenge(pwncollege.PWNObject):
         # self.solves = data["solves"]
         # self.solved = data["solved"]
 
-        self.sshclient = paramiko.SSHClient()
+        self.sshclient = None
 
 
 class DockerInstance:

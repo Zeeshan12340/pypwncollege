@@ -1,7 +1,13 @@
 from pwncollege.pwncollege import colors
 import json
+import argparse
 
 def get(self):
+    """if no flags, print help message"""
+    if not self.args.dojos and not self.args.modules and not self.args.challenges and not self.args.dojo_ranking and not self.args.module_ranking and not self.args.belt and not self.args.info:
+        print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
+        exit()
+        
     if self.args.dojos and not self.args.modules and not self.args.challenges:
         dojos = self.client.get_dojos()
         print("-"*12 + "Dojos" + "-"*13)
@@ -81,4 +87,3 @@ def get(self):
         if user.country_name:
             print("| " + f"Country: {user.country_name}" + " "*(25-len(user.country_name)-9) + "|")
         print("-" * 30)
-        
