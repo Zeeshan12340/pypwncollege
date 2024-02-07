@@ -3,7 +3,7 @@ name = "PyPwnCollege"
 packages = [
     {include = "pwncollege"}
 ]
-version = "0.1.1"
+version = "0.1.3"
 description = "A wrapper for the pwn.college API."
 authors = ["Zeeshan Ayub <mayub9799@gmail.com>"]
 
