@@ -64,3 +64,21 @@ def get(self):
         for user in belts.values():
             if user["color"] == belt_color:
                 print(json.dumps(user, indent=2))
+    
+    if self.args.info:
+        if self.args.info == '0':
+            user = self.client.user
+        else:
+            user = self.client.get_user(int(self.args.info))
+        print("-"*10 + "User Info" + "-"*10)
+        print("| " + f"Username: {user.name}" + " "*(25-len(user.name)-9) + "|")
+        print("| " + f"Ranking: {user.ranking}" + " "*(25-len(user.ranking)-8) + "|")
+        print("| " + f"Point: {user.points}" + " "*(25-len(user.points)-6) + "|")
+        print("| " + f"Belt: {user.belt}" + " "*(25-len(user.belt)-5) + "|")
+        if user.website:
+            print("| " + f"Website: " + " "*(25-len("Website:")) + "|")
+            print(f"|   {user.website} " + " "*(23-len(user.website)) + "|")
+        if user.country_name:
+            print("| " + f"Country: {user.country_name}" + " "*(25-len(user.country_name)-9) + "|")
+        print("-" * 30)
+        

@@ -29,7 +29,7 @@ def get_args():
     parser_get.add_argument('-dr', '--dojo-ranking', required=False, help='Get ranking of top users in a dojo')
     parser_get.add_argument('-mr', '--module-ranking', required=False, help='Get ranking of top users in a module inside a dojo')
     parser_get.add_argument('-b', '--belt', required=False, help='Get JSON data of all belted users')
-    parser_get.add_argument('-i', '--info', required=False, help='Get information about your user')
+    parser_get.add_argument('-i', '--info', required=False, nargs='?', const='0', help='Get information about your user(default) or a specific user by id(int).')
 
 
     # Begin challenge subcommand
@@ -85,6 +85,10 @@ class PWNCLI:
             challenge(self)
         elif self.subcommand == 'get':
             get(self)
+        elif self.subcommand != 'login':
+            print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
+            exit()
+            
 
 def main():
     flavortext = [

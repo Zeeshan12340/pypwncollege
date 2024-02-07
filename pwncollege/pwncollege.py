@@ -297,7 +297,11 @@ class PWNClient:
         text = self.do_request(f"/hacker/{user_id}").text
         name_re = re.search("<h1>(.*)</h1>", text)
         name = name_re.group(1) if name_re else ""
-        score = self.do_request("/pwncollege_api/v1/score?username=" + name).text.strip('"').split(":")
+        data = self.do_request("/pwncollege_api/v1/score?username=" + name)
+        if "user is not ranked" in data.text:
+            score = ["∞", "0"]
+        else:
+            score = data.text.strip('"').split(":")
         
         country = re.search("'country_name': \"([^\"]+)\"", text)
         country_name = country.group(1) if country else None
@@ -310,13 +314,12 @@ class PWNClient:
         data = cast(dict, {
             "id": user_id,
             "name": name,
-            "points": score[1],
             "ranking": score[0],
+            "points": score[1],
             "website": website,
             "country_name": country_name,
             "belt": belt,
         })
-        print(data)
         return User(data, self)
 
     # noinspection PyUnresolvedReferences
