@@ -64,6 +64,7 @@ class PWNClient:
         cache: Optional[str] = None,
         site_base: str = SITE_BASE,
         app_cookie: Optional[str] = None,
+        notif: bool = True,
     ):
         """
         Authenticates to the API.
@@ -80,7 +81,7 @@ class PWNClient:
         """
         self._site_base = site_base
         if cache is not None:
-            if self.load_from_cache(cache) is False:
+            if self.load_from_cache(cache, notif=notif) is False:
                 print(f"{colors.yellow}[!] Failed to load from cache, logging in normally{colors.reset}")
                 self.do_login(email, password, app_cookie)
                 self.dump_to_cache(cache)
@@ -136,7 +137,7 @@ class PWNClient:
         else:
             return r
 
-    def load_from_cache(self, cache: str) -> bool:
+    def load_from_cache(self, cache: str, notif: bool = True) -> bool:
         """
         Args:
             cache: The cache file path
@@ -156,7 +157,8 @@ class PWNClient:
             return False
         
         self.session.cookies.set("session", self._app_cookie)
-        print(f"{colors.green}[+]{colors.reset} Loaded from cache!")
+        if notif:
+            print(f"{colors.green}[+]{colors.reset} Loaded from cache!")
         return True
 
     def dump_to_cache(self, cache: str):

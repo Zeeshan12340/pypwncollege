@@ -72,8 +72,10 @@ class PWNCLI:
                 self.client = pwncollege.PWNClient(
                     email=self.args.username, password=self.args.password,
                     cache=cache)
-        else:
+        elif self.subcommand == 'login':
             self.client = pwncollege.PWNClient(cache=cache)
+        else:
+            self.client = pwncollege.PWNClient(cache=cache, notif=False)
 
     def run(self):
         """Executes the specified subcommand"""
