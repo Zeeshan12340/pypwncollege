@@ -25,12 +25,7 @@ print(client.user)
 
 ## CLI
 
-The library also comes with a CLI to interact with the API which is a work in progress/experimental. For now, it is not in the published pip package, if you want to check it out, do as follows and it should be available in your shell.
-
-```bash
-git clone https://github.com/Zeeshan12340/pypwncollege && cd pypwncollege
-pip install .
-```
+The library also comes with a CLI to interact with the API which is a work in progress. It is included in the published pip package and should be available in shell.
 
 Basic usage:
 
@@ -38,6 +33,7 @@ Basic usage:
 pwncli --help
 pwncli login -u test1337 -p test1337
 pwncli get --dojos
+pwncli challenge -d fundamentals -m program-misuse -c level-1 -f flag{test}
 ```
 
 ## Documentation
