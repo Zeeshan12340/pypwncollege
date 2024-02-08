@@ -68,10 +68,8 @@ class PWNCLI:
         if not os.path.exists(cache):
             if self.subcommand != 'login':
                 print(colors.red + "You must login first." + colors.reset)
-                exit()
             elif self.subcommand == 'login' and not self.args.username:
                 print(colors.red + "Username is required." + colors.reset)
-                exit()
             else:
                 self.client = pwncollege.PWNClient(
                     email=self.args.username, password=self.args.password,
