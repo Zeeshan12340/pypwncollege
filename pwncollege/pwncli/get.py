@@ -1,6 +1,5 @@
 from pwncollege.pwncollege import colors
 import json
-import argparse
 
 def get(self):
     """if no flags, print help message"""

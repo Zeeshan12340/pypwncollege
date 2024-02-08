@@ -213,7 +213,7 @@ class PWNClient:
         )
         if "Your username or password is incorrect" not in data.text:
             print(f"{colors.green}[+] Logged in as {colors.reset}{colors.blue}{email}!{colors.reset}")
-            self._app_cookie = self.session.cookies.get("session")
+            self._app_cookie = self.session.cookies.values()[0]
             return self._app_cookie
         else:
             raise AuthenticationException("Incorrect username or password")

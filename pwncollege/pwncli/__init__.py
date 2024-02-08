@@ -45,7 +45,8 @@ def get_args():
     parser_chall.add_argument('-e', '--execute', type=str, help='Run a command in container.')
     parser_chall.add_argument('-i', '--interactive', action="store_true", help='Run an interactive shell in container.')
 
-    args = parser.parse_args()
+    # args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
     return args
 
