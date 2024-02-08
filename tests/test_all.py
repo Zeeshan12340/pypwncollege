@@ -1,8 +1,7 @@
 from pwncollege import PWNClient
 from pwncollege.utils import cookie_expired
-from pwncollege.challenge import DockerInstance
 
-client = PWNClient(email='test1337', password='test1337')
+client = PWNClient(email='test1337')
 def test_login():
     """Tests the ability to login and receive a valid session token."""
     assert cookie_expired(client._app_cookie) == False
