@@ -93,7 +93,6 @@ class PWNCLI:
             get(self)
         elif self.subcommand != 'login':
             print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
-            exit()
             
 
 def main():

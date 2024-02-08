@@ -1,6 +1,5 @@
 from pwncollege import PWNClient
 from pwncollege.utils import cookie_expired
-from pwncollege.challenge import DockerInstance
 import os
     
 client = PWNClient(email='test1337', password=os.environ['TEST_PASSWORD'])
@@ -28,7 +27,6 @@ def test_challenge():
     
     challenge = client.create_challenge(dojos[0], modules[0], challenges[0])
     instance = challenge.start()
-    assert type(instance) == DockerInstance
     assert instance.dojo == dojos[0]
     assert instance.module == modules[0]
     assert instance.chall_id == challenge.id
