@@ -2,7 +2,7 @@
 Examples:
     Starting a challenge and submitting the flag::
 
-        challenge = client.get_challenge("<dojo>", "<module>", "<challenge_id>")
+        challenge = client.create_challenge("<dojo>", "<module>", "<challenge_object>")
         (get dojo/module/challenge listings from client.get_dojos()/client.get_modules()/client.get_challenges())
 
         instance = challenge.start()
