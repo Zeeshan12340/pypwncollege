@@ -13,6 +13,7 @@ def test_cli():
     sys.argv=['pwncli', 'login', '-u', 'test1337', '-p', os.environ['TEST_PASSWORD']]
     pwncli.main()
     
+    # get
     sys.argv=['pwncli', 'get', '--dojos']
     pwncli.main()
     
@@ -32,4 +33,14 @@ def test_cli():
     pwncli.main()
     
     sys.argv=['pwncli', 'get', '--info']
+    pwncli.main()
+    
+    # challenge
+    sys.argv=['pwncli', 'challenge', '-d', 'fundamentals', '-m', 'program-misuse', '-c', 'level-1', '-s']
+    pwncli.main()
+    
+    sys.argv=['pwncli', 'challenge', '-d', 'fundamentals', '-m', 'program-misuse', '-c', 'level-1', '-f', '123']
+    pwncli.main()
+    
+    sys.argv=['pwncli', 'challenge', '-d', 'fundamentals', '-m', 'program-misuse', '-c', 'level-1', '-e', 'id']
     pwncli.main()
