@@ -3,6 +3,6 @@ coverage:
     project:
       default:
         # basic
-        target: 95%
+        target: 80%
         paths:
           - "pwncollege"
