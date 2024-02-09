@@ -36,11 +36,14 @@ def test_cli():
     pwncli.main()
     
     # challenge
-    sys.argv=['pwncli', 'challenge', '-d', 'fundamentals', '-m', 'program-misuse', '-c', 'level-1', '-s']
+    sys.argv=['pwncli', 'challenge', '-d', 'fundamentals', '-m', 'program-misuse', '-c', 'level-1', '-r', '-s']
     pwncli.main()
     
     sys.argv=['pwncli', 'challenge', '-d', 'fundamentals', '-m', 'program-misuse', '-c', 'level-1', '-f', '123']
     pwncli.main()
     
     sys.argv=['pwncli', 'challenge', '-d', 'fundamentals', '-m', 'program-misuse', '-c', 'level-1', '-e', 'id']
+    pwncli.main()
+    
+    sys.argv=['pwncli', 'challenge', '-d', 'fundamentals', '-m', 'program-misuse', '-c', 'level-1', '-p']
     pwncli.main()
