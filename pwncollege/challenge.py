@@ -116,6 +116,14 @@ class Challenge(pwncollege.PWNObject):
         except paramiko.ssh_exception.AuthenticationException:
             print("Error connecting to pwn.college")
             exit()
+        except paramiko.ssh_exception.SSHException:
+            print("checking for ed25519 key")
+            private_key = paramiko.Ed25519Key.from_private_key_file(os.path.expanduser("~/.ssh/id_rsa"))
+            self.sshclient.connect(
+                hostname="pwn.college",
+                username="hacker",
+                pkey=private_key)
+            print("Connected.")
 
     def start(self, practice: bool = False) -> DockerInstance:
         """
