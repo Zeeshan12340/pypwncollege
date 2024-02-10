@@ -7,7 +7,7 @@ from .challenge import challenge
 from .get import get
 from pwncollege.pwncollege import colors
 
-def get_args():
+def get_parser():
     # Begin original commands - mostly related to authentication
     parser = argparse.ArgumentParser(
         description="Interact with pwncollege from the command line.",
@@ -45,19 +45,17 @@ def get_args():
     parser_chall.add_argument('-e', '--execute', type=str, help='Run a command in container.')
     parser_chall.add_argument('-i', '--interactive', action="store_true", help='Run an interactive shell in container.')
 
-    # args = parser.parse_args()
-    args, _ = parser.parse_known_args()
-
-    return args
+    return parser
 
 class PWNCLI:
     def __init__(self) -> None:
-        self.args = get_args()
+        parser = get_parser()
+        self.args, _ = parser.parse_known_args()
         self.client = None
         self.myChall = None
 
-        if self.args == argparse.Namespace(cache=None, subcommand=None):
-            print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
+        if self.args == argparse.Namespace(cache="~/.pwncli.json", subcommand=None):
+            parser.print_help()
             exit()
 
         self.subcommand = self.args.subcommand
