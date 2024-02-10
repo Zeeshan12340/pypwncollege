@@ -1,11 +1,17 @@
-from pwncollege.pwncollege import colors
 from pwncollege.challenge import Challenge
+import argparse
 
 def challenge(self):
     """Challenge subcommand"""
     """if no flags, print help message"""
     if not self.args.dojo and not self.args.module and not self.args.challenge:
-        print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
+        subparsers_actions = [
+            action for action in self.parser._actions 
+            if isinstance(action, argparse._SubParsersAction)]
+        for subparsers_action in subparsers_actions:
+            for choice, subparser in subparsers_action.choices.items():
+                if choice == "get":
+                    print(subparser.format_help())
         exit()
         
     if self.args.dojo and not self.args.module and not self.args.challenge:

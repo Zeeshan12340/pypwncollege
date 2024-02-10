@@ -11,7 +11,7 @@ def get_parser():
     # Begin original commands - mostly related to authentication
     parser = argparse.ArgumentParser(
         description="Interact with pwncollege from the command line.",
-        usage="pwncli [-h] [-c CACHE] [-v] {login,challenge} ..."
+        usage="pwncli [-h] [-c CACHE] [-v] {login,get,challenge} ..."
         )
     parser.add_argument('-c', '--cache', type=str, required=False, help='filesystem location for cache. Default is ~/.pwncli.json', default="~/.pwncli.json")
     subparsers = parser.add_subparsers(title='subcommands', dest='subcommand')
@@ -49,13 +49,13 @@ def get_parser():
 
 class PWNCLI:
     def __init__(self) -> None:
-        parser = get_parser()
-        self.args, _ = parser.parse_known_args()
+        self.parser = get_parser()
+        self.args, _ = self.parser.parse_known_args()
         self.client = None
         self.myChall = None
 
         if self.args == argparse.Namespace(cache="~/.pwncli.json", subcommand=None):
-            parser.print_help()
+            self.parser.print_help()
             exit()
 
         self.subcommand = self.args.subcommand
@@ -77,6 +77,8 @@ class PWNCLI:
             self.client = pwncollege.PWNClient(
                     email=self.args.username, password=self.args.password)
             self.client.dump_to_cache(cache)
+        elif self.subcommand == 'login':
+            self.client = pwncollege.PWNClient(cache=cache, notif=True)
         else:
             self.client = pwncollege.PWNClient(cache=cache, notif=False)
 
@@ -87,6 +89,7 @@ class PWNCLI:
         if self.subcommand == 'challenge':
             challenge(self)
         elif self.subcommand == 'get':
+            """if no flags, print help message"""
             get(self)
         elif self.subcommand != 'login':
             print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)

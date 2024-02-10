@@ -1,10 +1,17 @@
 from pwncollege.pwncollege import colors
 import json
+import argparse
 
 def get(self):
     """if no flags, print help message"""
     if not self.args.dojos and not self.args.modules and not self.args.challenges and not self.args.dojo_ranking and not self.args.module_ranking and not self.args.belt and not self.args.info:
-        print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
+        subparsers_actions = [
+            action for action in self.parser._actions 
+            if isinstance(action, argparse._SubParsersAction)]
+        for subparsers_action in subparsers_actions:
+            for choice, subparser in subparsers_action.choices.items():
+                if choice == "get":
+                    print(subparser.format_help())
         exit()
         
     if self.args.dojos and not self.args.modules and not self.args.challenges:
