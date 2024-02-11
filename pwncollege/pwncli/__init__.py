@@ -148,6 +148,7 @@ def main():
         "Hello Hackers!!!",
         "zeeshan probably cheesed it :frowning:",
         "L",
+        "idanhurja is cool",
     ]
 
     print(f'\n\033[92mpwncli - v0.1.6 | {choice(flavortext)}\033[0m')
