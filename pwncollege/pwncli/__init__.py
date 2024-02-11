@@ -101,7 +101,7 @@ def main():
         "when new challenges? SoonTM",
         ":feelsyanman:",
         "dojo broken 504 error :c",
-        "check the man page",
+        "read the man page",
         "man chmod",
         "it's too hard/ctfy/easy.That's your attitude to everything",
         "how get belts?!?!?",
@@ -109,6 +109,7 @@ def main():
         "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
         "Hello Hackers!!!",
         "zeeshan probably cheesed it :frowning:",
+        "L"
     ]
 
     print(f'\n\033[92mpwncli - v0.1.5 | {choice(flavortext)}\033[0m')
