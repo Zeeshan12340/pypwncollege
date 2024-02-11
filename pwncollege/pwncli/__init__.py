@@ -51,7 +51,6 @@ def get_parser():
     parser_profile.add_argument('-u', '--username', required=False, help='Change username.')
     parser_profile.add_argument('-e', '--email', required=False, help='Change email.')
     parser_profile.add_argument('-p', '--password', required=False, help='Change password.')
-    parser_profile.add_argument('-a', '--affiliation', required=False, help='Change affiliation.')
     parser_profile.add_argument('-w', '--website', required=False, help='Change website.')
     parser_profile.add_argument('-c', '--country', required=False, help='Change change.')
     parser_profile.add_argument('-v', '--visibility', required=False, help='Change visibility.')
