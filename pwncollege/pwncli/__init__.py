@@ -147,7 +147,7 @@ def main():
         "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
         "Hello Hackers!!!",
         "zeeshan probably cheesed it :frowning:",
-        "L"
+        "L",
     ]
 
     print(f'\n\033[92mpwncli - v0.1.6 | {choice(flavortext)}\033[0m')
