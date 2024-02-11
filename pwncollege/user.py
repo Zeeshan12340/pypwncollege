@@ -51,7 +51,7 @@ class User(pwncollege.PWNObject):
         """Change the User's username"""
         """get nonce"""
         nonce = parse_csrf_token(self._client.do_request("/settings").text)
-        
+
         json_data = {}
         if new_username:
             json_data["name"] = new_username
@@ -72,7 +72,7 @@ class User(pwncollege.PWNObject):
         if hidden == "True" or hidden == "False":
             json_data["hidden"] = hidden
         json_data["fields"] = []
-            
+
         res = self._client.do_request(
             "/api/v1/users/me",
             json_data=json_data,
@@ -92,4 +92,25 @@ class User(pwncollege.PWNObject):
             if new_country:
                 print(f"Country: {res['data']['country']}")
         else:
+            print(res["errors"])
+
+    def change_sshkey(self, ssh_key: str):
+        """Change the User's SSH key"""
+        nonce = parse_csrf_token(self._client.do_request("/settings").text)
+        json_data = {
+            "ssh_key": ssh_key
+        }
+        res = self._client.do_request(
+            "pwncollege_api/v1/ssh_key",
+            json_data=json_data,
+            patch=True,
+            nonce=nonce
+        ).json()
+
+        if res["success"]:
+            print(colors.green +
+                  f"Changes successful!\nSSH Public Key set!" + colors.reset)
+        else:
+            print(colors.red +
+                  "Changes failed!" + colors.reset)
             print(res["errors"])
