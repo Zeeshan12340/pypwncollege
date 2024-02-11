@@ -98,6 +98,7 @@ class PWNClient:
         data=None,
         post=False,
         nonce: Optional[str] = None,
+        patch: bool = False,
     ) -> requests.Response:
         """
 
@@ -114,8 +115,16 @@ class PWNClient:
             "User-Agent": USER_AGENT,
             "Csrf-Token": nonce,
         }
-    
-        if not json_data and not data:
+        
+        if patch:
+            r = self.session.patch(
+                self._site_base + endpoint,
+                json=json_data,
+                data=data,
+                headers=headers,
+            )
+
+        elif not json_data and not data:
             if post:
                 r = self.session.post(
                     self._site_base + endpoint, headers=headers

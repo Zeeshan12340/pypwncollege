@@ -118,7 +118,8 @@ class Challenge(pwncollege.PWNObject):
             exit()
         except paramiko.ssh_exception.SSHException:
             print("checking for ed25519 key")
-            private_key = paramiko.Ed25519Key.from_private_key_file(os.path.expanduser("~/.ssh/id_rsa"))
+            private_key = paramiko.Ed25519Key.from_private_key_file(
+                os.path.expanduser("~/.ssh/id_rsa"))
             self.sshclient.connect(
                 hostname="pwn.college",
                 username="hacker",
@@ -138,15 +139,15 @@ class Challenge(pwncollege.PWNObject):
         """
         nonce = parse_csrf_token(self._client.do_request("").text)
         response = self._client.do_request(
-                "pwncollege_api/v1/docker",
-                json_data={
-                    "dojo": self.dojo,
-                    "module": self.module,
-                    "challenge": self.id,
-                    "practice": practice,
-                },
-                nonce=nonce,
-            )
+            "pwncollege_api/v1/docker",
+            json_data={
+                "dojo": self.dojo,
+                "module": self.module,
+                "challenge": self.id,
+                "practice": practice,
+            },
+            nonce=nonce,
+        )
         print(response.json())
 
         try:
@@ -154,12 +155,12 @@ class Challenge(pwncollege.PWNObject):
                 raise IncorrectArgumentException(response.json()["success"])
         except json.JSONDecodeError:
             raise IncorrectArgumentException(response.json()["success"])
-        
+
         print("Challenge started!")
         self.instance = DockerInstance(
             self.dojo, self.module, self.id, self._client
         )
-        
+
         return self.instance
 
     def download(self, remote: str = "", local=None) -> str:
@@ -194,13 +195,13 @@ class Challenge(pwncollege.PWNObject):
         sftp.get(remote, local)
         sftp.close()
         return local
-    
+
     def run(self, command: str = "id", system: bool = False):
         """Starts an interactive ssh session with the challenge"""
         if self.sshclient.get_transport() is None:
             print("Connecting to Challenge!")
             self.connect()
-        
+
         if system:
             os.system("ssh hacker@pwn.college -t tmux")
             return
@@ -219,7 +220,6 @@ class Challenge(pwncollege.PWNObject):
             print("Error connecting to pwn.college")
             print(e)
             return
-        
 
     def __repr__(self):
         return f"<Challenge '{self.name}'>"

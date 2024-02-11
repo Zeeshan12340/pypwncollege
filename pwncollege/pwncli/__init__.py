@@ -5,6 +5,7 @@ import pwncollege
 import os
 from .challenge import challenge
 from .get import get
+from .profile import profile
 from pwncollege.pwncollege import colors
 
 def get_parser():
@@ -44,7 +45,19 @@ def get_parser():
     parser_chall.add_argument('-f', '--flag', type=str, help='Submit flag.')
     parser_chall.add_argument('-e', '--execute', type=str, help='Run a command in container.')
     parser_chall.add_argument('-i', '--interactive', action="store_true", help='Run an interactive shell in container.')
-
+    
+    # Begin profile subcommand
+    parser_profile = subparsers.add_parser('profile', help="Change profile data such as username, ssh public key etc.")
+    parser_profile.add_argument('-u', '--username', required=False, help='Change username.')
+    parser_profile.add_argument('-e', '--email', required=False, help='Change email.')
+    parser_profile.add_argument('-p', '--password', required=False, help='Change password.')
+    parser_profile.add_argument('-a', '--affiliation', required=False, help='Change affiliation.')
+    parser_profile.add_argument('-w', '--website', required=False, help='Change website.')
+    parser_profile.add_argument('-c', '--country', required=False, help='Change change.')
+    parser_profile.add_argument('-v', '--visibility', required=False, help='Change visibility.')
+    parser_profile.add_argument('-s', '--ssh-key', required=False, help='Change ssh public key.')
+    
+    
     return parser
 
 class PWNCLI:
@@ -91,9 +104,10 @@ class PWNCLI:
         elif self.subcommand == 'get':
             """if no flags, print help message"""
             get(self)
+        elif self.subcommand == 'profile':
+            profile(self)
         elif self.subcommand != 'login':
             print(colors.yellow + "Use the -h/--help flag for basic help information." + colors.reset)
-            
 
 def main():
     flavortext = [
