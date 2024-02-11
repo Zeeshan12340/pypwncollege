@@ -126,7 +126,6 @@ class PWNCLI:
         if self.subcommand == 'challenge':
             challenge(self)
         elif self.subcommand == 'get':
-            """if no flags, print help message"""
             get(self)
         elif self.subcommand == 'profile':
             profile(self)
