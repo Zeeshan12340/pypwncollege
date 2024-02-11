@@ -109,7 +109,7 @@ class User(pwncollege.PWNObject):
 
         if res["success"]:
             print(colors.green +
-                  f"Changes successful!\nSSH Public Key set!" + colors.reset)
+                  f"Changes successful - SSH Public Key set!" + colors.reset)
         else:
             print(colors.red +
                   "Changes failed!" + colors.reset)
