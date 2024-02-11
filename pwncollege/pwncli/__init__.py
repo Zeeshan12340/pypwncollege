@@ -111,7 +111,7 @@ def main():
         "zeeshan probably cheesed it :frowning:",
     ]
 
-    print(f'\n\033[92mpwncli - v0.1.0 | {choice(flavortext)}\033[0m')
+    print(f'\n\033[92mpwncli - v0.1.5 | {choice(flavortext)}\033[0m')
     print('\033[35mauthor: @Zeeshan12340 (www.zeeshan1234.tech)\033[0m\n')
     
     obj = PWNCLI()

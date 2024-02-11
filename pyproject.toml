@@ -9,7 +9,7 @@ readme = "README.md"
 homepage = "https://pypwncollege.readthedocs.io/"
 repository = "https://github.com/zeeshan12340/pypwncollege"
 documentation = "https://pypwncollege.readthedocs.io/"
-keywords = ["pwn.college", "automation"]
+keywords = ["pwn.college", "pwncollege", "automation"]
 authors = ["Zeeshan Ayub <mayub9799@gmail.com>"]
 
 [tool.poetry.dependencies]
