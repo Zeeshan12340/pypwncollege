@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Dict
 
 from . import pwncollege
 from pwncollege.pwncollege import colors
@@ -47,17 +47,17 @@ class User(pwncollege.PWNObject):
         self.country_name = data["country_name"]
         self.belt = data["belt"]
 
-    def change_profile(self, new_username: str = None, new_email: str = None, password: str = None, new_website: str = None, new_country: str = None, hidden: str = "False"):
+    def change_profile(self, new_username: str = "", new_email: str = "", password: str = "", new_website: str = "", new_country: str = "", hidden: str = "False"):
         """Change the User's username"""
         """get nonce"""
         nonce = parse_csrf_token(self._client.do_request("/settings").text)
 
-        json_data = {}
+        json_data: Dict[str, Any] = {}
         if new_username:
             json_data["name"] = new_username
             self.name = new_username
         if new_email:
-            if password is None:
+            if password:
                 raise ValueError("Password is required to change email")
             json_data["email"] = new_email
         if password:
