@@ -95,10 +95,6 @@ class PWNCLI:
         self.client = None
         self.myChall = None
 
-        if self.args == argparse.Namespace(cache="~/.pwncli.json", subcommand=None):
-            self.parser.print_help()
-            exit()
-
         self.subcommand = self.args.subcommand
 
     def login(self):
