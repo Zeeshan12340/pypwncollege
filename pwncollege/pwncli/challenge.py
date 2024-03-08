@@ -10,7 +10,7 @@ def challenge(self):
             if isinstance(action, argparse._SubParsersAction)]
         for subparsers_action in subparsers_actions:
             for choice, subparser in subparsers_action.choices.items():
-                if choice == "get":
+                if choice == "challenge":
                     print(subparser.format_help())
         exit()
         
