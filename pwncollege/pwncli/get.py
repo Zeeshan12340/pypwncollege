@@ -82,14 +82,13 @@ def get(self):
             user = self.client.user
         else:
             user = self.client.get_user(int(self.args.info))
-        print("-"*10 + "User Info" + "-"*10)
-        print("| " + f"Username: {user.name}" + " "*(25-len(user.name)-9) + "|")
-        print("| " + f"Ranking: {user.ranking}" + " "*(25-len(user.ranking)-8) + "|")
-        print("| " + f"Point: {user.points}" + " "*(25-len(user.points)-6) + "|")
-        print("| " + f"Belt: {user.belt}" + " "*(25-len(user.belt)-5) + "|")
+        print("-"*20 + "User Info" + "-"*20)
+        print("| " + f"Username: {user.name}" + " "*(45-len(user.name)-9) + "|")
+        print("| " + f"Ranking: {user.ranking}" + " "*(45-len(user.ranking)-8) + "|")
+        print("| " + f"Points: {user.points}" + " "*(45-len(user.points)-7) + "|")
+        print("| " + f"Belt: {user.belt}" + " "*(45-len(user.belt)-5) + "|")
         if user.website:
-            print("| " + f"Website: " + " "*(25-len("Website:")) + "|")
-            print(f"|   {user.website} " + " "*(23-len(user.website)) + "|")
+            print("| " + f"Website: " + user.website + " "*(45-len(user.website)-8) + "|")
         if user.country_name:
-            print("| " + f"Country: {user.country_name}" + " "*(25-len(user.country_name)-9) + "|")
-        print("-" * 30)
+            print("| " + f"Country: " + user.country_name + " "*(45-len(user.country_name)-9) + "|")
+        print("-" * 49)

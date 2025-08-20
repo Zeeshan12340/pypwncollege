@@ -16,6 +16,8 @@ pip install pypwncollege
 
 ## Demo
 
+> Note: Username/Password is not stored on the system, only the session cookie "app_cookie" is stored in ~/.pwncli.json. Re-login might be needed if that cookie expires.
+
 ```py
 from pwncollege import PWNClient
 # Create an API connection
@@ -36,6 +38,8 @@ pwncli login -u test1337 -p test1337
 pwncli get --dojos
 pwncli challenge -d fundamentals -m program-misuse -c level-1 -f flag{test}
 ```
+
+> Note: Not specifying the password on the command line will make pwncli request it like sudo does.
 
 ## Documentation
 

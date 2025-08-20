@@ -304,18 +304,18 @@ class PWNClient:
         from .user import User
 
         text = self.do_request(f"/hacker/{user_id}").text
-        name_re = re.search("<h1>(.*)</h1>", text)
+        name_re = re.search("<h1.*>(.*)</h1>", text)
         name = name_re.group(1) if name_re else ""
         r = self.do_request("/pwncollege_api/v1/score?username=" + name)
         if "user is not ranked" in r.text:
             score = ["∞", "0"]
         else:
             score = r.text.strip('"').split(":")
-        
+
         country = re.search("'country_name': \"([^\"]+)\"", text)
         country_name = country.group(1) if country else None
 
-        belt_re = re.search("<img src=\"/themes/dojo_theme/static/img/dojo/(.*).svg", text)
+        belt_re = re.search("<img src=\"/belt/(.*).svg\", class=\"scoreboard-belt\">", text)
         belt = belt_re.group(1) if belt_re else None
         website_re = re.search("<a href=\"(.*)\" target=\"_blank\" style=\"color: inherit;\" rel=\"noopener\">", text)
         website = website_re.group(1) if website_re else None

@@ -142,8 +142,6 @@ def main():
         "read the man page",
         "man chmod",
         "it's too hard/ctfy/easy. That's your attitude to everything",
-        "how get belts?!?!?",
-        "If you're using Windows, don't.",
         "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
         "Hello Hackers!!!",
         "zeeshan probably cheesed it :frowning:",
