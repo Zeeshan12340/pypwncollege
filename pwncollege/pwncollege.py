@@ -123,7 +123,6 @@ class PWNClient:
                 data=data,
                 headers=headers,
             )
-
         elif not json_data and not data:
             if post:
                 r = self.session.post(
@@ -234,25 +233,26 @@ class PWNClient:
         Returns: A list of dojos
 
         """
-        data = self.do_request("dojos").text
-        dojos = re.findall("href=\"/dojo/(.*)\"", data)
-        return dojos
+        data = self.do_request("pwncollege_api/v1/dojos").json()
+        if data["success"] is False:
+            return []
+        return data["dojos"]
     
     def get_modules(self, dojo: str) -> List[str]:
         """Requests a list of available modules in a dojo
-        
+
         Args:
             dojo: The dojo to fetch modules from
-        
+
         Returns: A list of modules
         """
-        r = self.do_request(f"{dojo}/")
-        if r.status_code == 404:
+        data = self.do_request(f"pwncollege_api/v1/dojos/{dojo}/modules")
+        if data.status_code == 404:
             print(f"{colors.red}[!] Dojo {dojo} does not exist!{colors.reset}")
             return []
-        data = r.text
-        modules = re.findall(f"href=\"/{dojo}/(.*)\"", data)
-        return modules
+        if data.json()["success"]:
+            return data.json()["modules"]
+        return []
 
     # noinspection PyUnresolvedReferences
     def get_challenges(self, dojo: str, module: str) -> List["Challenge"]:
@@ -265,20 +265,19 @@ class PWNClient:
         Returns: A list of `Challenge`
 
         """
-        from .challenge import Challenge
 
-        r = self.do_request(f"pwncollege_api/v1/dojo/{dojo}/{module}/challenges")
-        if r.status_code == 404:
-            print(f"{colors.red}[!] Dojo {dojo} or module {module} does not exist!{colors.reset}")
-        data = cast(dict, r.json())
+        data = self.do_request(f"pwncollege_api/v1/dojos/{dojo}/modules")
+        if data.status_code == 404:
+            print(f"{colors.red}[!] Dojo {dojo} does not exist!{colors.reset}")
 
-        # TODO: parse challenges html page for number of solves and solved challenges
-        for challenge in data["challenges"]:
-            challenge["dojo"] = dojo
-            challenge["module"] = module
-        
-        challenges = [Challenge(challenge, self) for challenge in data["challenges"]]
-        return challenges
+        data = data.json()
+        if data["success"] is False:
+            return []
+        for item in data["modules"]:
+            if item["id"].lower() == module.lower():
+                return item["challenges"]
+        print(f"{colors.red}[!] Module {module} does not exist in dojo {dojo}!{colors.reset}")
+
     
     def create_challenge(self, dojo: str, module: str, chall: Challenge) -> "Challenge":
         """Creates a `Challenge` object from needed info"""

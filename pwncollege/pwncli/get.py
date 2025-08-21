@@ -16,19 +16,30 @@ def get(self):
         
     if self.args.dojos and not self.args.modules and not self.args.challenges:
         dojos = self.client.get_dojos()
-        print("-"*12 + "Dojos" + "-"*13)
-        for dojo in dojos:
-            print("| " + dojo + " "*(27-len(dojo)) + "|")
-        print("-" * 30)
+        community_dojos = [dojo["id"] for dojo in dojos if not dojo["official"]]
+        regular_dojos = [dojo["id"] for dojo in dojos if dojo["official"]]
+
+        print("-"*17 + "Dojos" + "-"*18)
+        for dojo in regular_dojos:
+            print("| " + dojo + " "*(37-len(dojo)) + "|")
+        print("-" * 40)
+
+        if community_dojos:
+            print("-"*13 + "Community Dojos" + "-"*13)
+            for dojo in community_dojos:
+                print("| " + dojo + " "*(37-len(dojo)) + "|")
+            print("-" * 40)
     
     if self.args.modules and not self.args.challenges:
         dojo = self.args.modules
-        modules = self.client.get_modules(dojo)
+        data = self.client.get_modules(dojo)
+        modules = [module["id"] for module in data]
+
         if modules == []:
             exit()
         print("-"*11 + "Modules" + "-"*12)
         for module in modules:
-            print("| " + module + " "*(27-len(module)) + "|")
+            print("| " + module.strip("/") + " "*(27-len(module)) + "|")
         print("-" * 30)
     
     if self.args.challenges:
@@ -42,7 +53,7 @@ def get(self):
             exit()
         print("-"*10 + "Challenges" + "-"*10)
         for challenge in challenges:
-            print("| " + challenge.id + " "*(27-len(challenge.id)) + "|")
+            print("| " + challenge["id"] + " "*(27-len(challenge["id"])) + "|")
         print("-" * 30)
     
     if self.args.dojo_ranking and not self.args.module_ranking:
