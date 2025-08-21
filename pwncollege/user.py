@@ -15,7 +15,8 @@ class User(pwncollege.PWNObject):
         name: The username of the User
         ranking: The User's position on the Global Leaderboard
         points: The User's current total points
-        country_name: The name of the User's country
+        country: The name of the User's country
+        university: The name of the User's university
 
         website: The User's website
         belt: The User's current belt
@@ -26,8 +27,9 @@ class User(pwncollege.PWNObject):
     ranking: int
     points: int
     website: str
+    university: str
 
-    country_name: str
+    country: str
     belt: str
 
     def __repr__(self):
@@ -44,10 +46,11 @@ class User(pwncollege.PWNObject):
         self.ranking = data["ranking"]
         self.website = data["website"]
 
-        self.country_name = data["country_name"]
+        self.country = data["country"]
         self.belt = data["belt"]
+        self.university = data["university"]
 
-    def change_profile(self, new_username: str = "", new_email: str = "", password: str = "", new_website: str = "", new_country: str = "", hidden: str = "False"):
+    def change_profile(self, new_username: str = "", new_email: str = "", password: str = "", new_website: str = "", new_country: str = "", new_university: str = "", hidden: str = "False"):
         """Change the User's username"""
         """get nonce"""
         nonce = parse_csrf_token(self._client.do_request("/settings").text)
@@ -68,7 +71,10 @@ class User(pwncollege.PWNObject):
             self.website = new_website
         if new_country:
             json_data["country"] = new_country
-            self.country_name = new_country
+            self.country = new_country
+        if new_university:
+            json_data["university"] = new_university
+            self.university = new_university
         if hidden == "True" or hidden == "False":
             json_data["hidden"] = hidden
         json_data["fields"] = []
@@ -91,6 +97,8 @@ class User(pwncollege.PWNObject):
                 print(f"Website: {res['data']['website']}")
             if new_country:
                 print(f"Country: {res['data']['country']}")
+            if new_university:
+                print(f"University: {res['data']['university']}")
         else:
             print(res["errors"])
 

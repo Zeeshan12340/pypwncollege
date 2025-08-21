@@ -89,6 +89,8 @@ def get(self):
         print("| " + f"Belt: {user.belt}" + " "*(45-len(user.belt)-5) + "|")
         if user.website:
             print("| " + f"Website: " + user.website + " "*(45-len(user.website)-8) + "|")
-        if user.country_name:
-            print("| " + f"Country: " + user.country_name + " "*(45-len(user.country_name)-9) + "|")
+        if user.country:
+            print("| " + f"Country: " + user.country + " "*(45-len(user.country)-8) + "|")
+        if user.university:
+            print("| " + f"University: " + user.university + " "*(45-len(user.university)-11) + "|")
         print("-" * 49)

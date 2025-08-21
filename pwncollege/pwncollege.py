@@ -312,10 +312,13 @@ class PWNClient:
         else:
             score = r.text.strip('"').split(":")
 
-        country = re.search("'country_name': \"([^\"]+)\"", text)
-        country_name = country.group(1) if country else None
+        country_name = re.search("<i class=\"flag-.*\"><\/i>\n(.*)\n", text)
+        country = country_name.group(1).strip() if country_name else None
 
-        belt_re = re.search("<img src=\"/belt/(.*).svg\", class=\"scoreboard-belt\">", text)
+        university_name = re.search("<span class=\"badge badge-primary\">(.*)<\/span>", text)
+        university = university_name.group(1).strip() if university_name else None
+
+        belt_re = re.search("<img src=\"/belt/(.*).svg\",? class=\"scoreboard-belt\">", text)
         belt = belt_re.group(1) if belt_re else None
         website_re = re.search("<a href=\"(.*)\" target=\"_blank\" style=\"color: inherit;\" rel=\"noopener\">", text)
         website = website_re.group(1) if website_re else None
@@ -326,8 +329,9 @@ class PWNClient:
             "ranking": score[0],
             "points": score[1],
             "website": website,
-            "country_name": country_name,
+            "country": country,
             "belt": belt,
+            "university": university,
         })
         return User(data, self)
 
