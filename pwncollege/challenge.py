@@ -187,14 +187,15 @@ class Challenge(pwncollege.PWNObject):
             files = sftp.listdir("/challenge/")
             for file in files:
                 remote = os.path.join("/challenge/", file)
-                local = os.path.join(os.getcwd(), file)
-                sftp.get(remote, local)
+                download = os.path.join(local, file)
+                print(f"Downloading files from {remote} to {download}")
+                sftp.get(remote, download)
             sftp.close()
-            return local
+            return download
 
-        sftp.get(remote, local)
+        sftp.get(remote, download)
         sftp.close()
-        return local
+        return download
 
     def run(self, command: str = "id", system: bool = False):
         """Starts an interactive ssh session with the challenge"""

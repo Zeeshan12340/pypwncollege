@@ -27,22 +27,23 @@ def challenge(self):
         Everything is available, check if dojo, module, and challenge exist.
         If not, exit. If so, create challenge.
         """
-        if self.args.dojo not in self.client.get_dojos():
+        dojos = [dojo["id"] for dojo in self.client.get_dojos()]
+        if self.args.dojo not in dojos:
             print("Dojo not found.")
             exit()
-        elif self.args.module not in self.client.get_modules(self.args.dojo):
+        modules = [module["id"] for module in self.client.get_modules(self.args.dojo)]
+        if self.args.module not in modules:
             print("Module not found.")
             exit()
         
-        challenges = [c for c in self.client.get_challenges(self.args.dojo, self.args.module)]
-        challenge_ids = [c.id for c in challenges]
-        if self.args.challenge not in challenge_ids:
+        challenges = self.client.get_challenge_ids(self.args.dojo, self.args.module)
+        if self.args.challenge not in challenges:
             print("Challenge not found.")
             exit()
 
         dojo = self.args.dojo
         module = self.args.module
-        challenge_id = next((c.challenge_id for c in challenges if c.id == self.args.challenge), None)
+        challenge_id = challenges.get(self.args.challenge)
         data = {"id": self.args.challenge, "challenge_id": challenge_id,
                 "dojo": dojo, "module": module}
         challenge = Challenge(data, self)

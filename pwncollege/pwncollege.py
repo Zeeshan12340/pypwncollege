@@ -277,8 +277,31 @@ class PWNClient:
             if item["id"].lower() == module.lower():
                 return item["challenges"]
         print(f"{colors.red}[!] Module {module} does not exist in dojo {dojo}!{colors.reset}")
-
     
+    # noinspection PyUnresolvedReferences
+    def get_challenge_ids(self, dojo: str, module: str) -> List[str]:
+        """Requests a list of `Challenge` IDs from the API in a module
+
+        Args:
+            dojo: The dojo to fetch challenges from
+            module: The module to fetch challenges from
+
+        Returns: A list of `Challenge`
+
+        """
+
+        data = self.do_request(f"{dojo}/{module}")
+        if data.status_code == 404:
+            print(f"{colors.red}[!] Dojo {dojo} or module {module} does not exist!{colors.reset}")
+
+        pairs = re.findall(
+            r'<input id="challenge"[^>]*value="([^"]+)">.*?<input id="challenge-id"[^>]*value="([^"]+)"',
+            data.text,
+            re.DOTALL
+        )
+        mapping = {name: int(cid) for name, cid in pairs}
+        return mapping
+
     def create_challenge(self, dojo: str, module: str, chall: Challenge) -> "Challenge":
         """Creates a `Challenge` object from needed info"""
         from .challenge import Challenge
