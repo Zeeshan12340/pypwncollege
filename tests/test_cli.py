@@ -10,7 +10,7 @@ def test_cli():
     pwncli.main()
     
 def test_login():
-    sys.argv=['pwncli', 'login', '-u', 'test1337', '-p', os.environ['TEST_PASSWORD']]
+    sys.argv=['pwncli', 'login', '-u', 'test1339', '-p', os.environ['TEST_PASSWORD']]
     pwncli.main()
     
 def test_get():
@@ -49,11 +49,11 @@ def test_challenge():
     pwncli.main()
     
 def test_profile():
-    sys.argv=['pwncli', 'profile', '-u', 'test1339', '-w', 'example.com', '-c', 'US']
+    sys.argv=['pwncli', 'profile', '-u', 'test1337', '-w', 'example.com']
     pwncli.main()
     
-    # sys.argv=['pwncli', 'profile', '-u', 'test1337', '-p', os.environ['TEST_PASSWORD'] , '-w', 'test.com', '-c', 'UK']
-    # pwncli.main()
+    sys.argv=['pwncli', 'profile', '-u', 'test1339', '-p', os.environ['TEST_PASSWORD'] , '-w', 'test.com']
+    pwncli.main()
     
     # sys.argv=['pwncli', 'profile', '-s', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQD9rhCtGio/xC4vjCBhROS6CQxBoBQGaPAHFA+rtb4llAOPO8XXZnG6U/Rc1+syHvXCJ2z5EwXCz3le8GYcQ5yL9JU5pWjeqEdv4K7/GOStF1EClrIjrv6g028iucPESZ3pPbk8TzepuOgoZORFoIuXIGLZb07loJF9BZ4tSAEWXf/zcI1gDbFjfT+td4ipAlLosLoOl+hvmGvdpQr943Ych7siRwqnNSKTRM62QjPkAk8B7BSOPJ4a2S4aDSwE4FDsdi8tn86h5HhRnLrCUuKm4VcPmGS+LXgggaxkRDI7fBUPtwqtKfIuOenQe5YJMzNgU6ioBHT5JvBBoeunAMUQoVkeU6iy1eiO19q4YKq1pOolBpWd2Bs2tYD83HwxGwmvOqcckCbii1orrohbianhEVpkJhpiP1cZfD2+QteXXcPRgRBupOIukYwKuotrmbJWmK5jzjvF1Z/4ItM3t15icJ1RStNtt8giUt7rPg6T+Wwb6AS+ObY3Pv1AwKPVBQU=']
     # pwncli.main()

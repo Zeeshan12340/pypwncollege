@@ -2,12 +2,12 @@ from pwncollege import PWNClient
 from pwncollege.utils import cookie_expired
 import os
     
-client = PWNClient(email='test1337', password=os.environ['TEST_PASSWORD'])
+client = PWNClient(email='test1339', password=os.environ['TEST_PASSWORD'])
 def test_login():
     """Tests the ability to login and receive a valid session token."""
     assert client._app_cookie is not None and cookie_expired(client._app_cookie) == False
     assert client._app_cookie is not None
-    assert client.user.name == 'test1337'
+    assert client.user.name == 'test1339'
 
 def test_leaderboard():
     """Tests the ability to retrieve a leaderboard."""
