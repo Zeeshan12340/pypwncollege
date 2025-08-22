@@ -277,9 +277,10 @@ class PWNClient:
             if item["id"].lower() == module.lower():
                 return item["challenges"]
         print(f"{colors.red}[!] Module {module} does not exist in dojo {dojo}!{colors.reset}")
+        return []
     
     # noinspection PyUnresolvedReferences
-    def get_challenge_ids(self, dojo: str, module: str) -> List[str]:
+    def get_challenge_ids(self, dojo: str, module: str) -> dict[str, int]:
         """Requests a list of `Challenge` IDs from the API in a module
 
         Args:
