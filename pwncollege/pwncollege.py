@@ -335,10 +335,10 @@ class PWNClient:
         else:
             score = r.text.strip('"').split(":")
 
-        country_name = re.search("<i class=\"flag-.*\"><\/i>\n(.*)\n", text)
+        country_name = re.search("<i class=\"flag-.*\"><\\/i>\n(.*)\n", text)
         country = country_name.group(1).strip() if country_name else None
 
-        university_name = re.search("<span class=\"badge badge-primary\">(.*)<\/span>", text)
+        university_name = re.search("<span class=\"badge badge-primary\">(.*)<\\/span>", text)
         university = university_name.group(1).strip() if university_name else None
 
         belt_re = re.search("<img src=\"/belt/(.*).svg\",? class=\"scoreboard-belt\">", text)
